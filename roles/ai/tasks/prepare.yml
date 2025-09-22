@@ -1,0 +1,94 @@
+---
+- name: Ensure build dependencies are installed
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+  loop:
+    - build-essential
+    - gcc
+    - g++
+    - cmake
+    - git
+
+- name: Download conda installer
+  vars:
+    suffix_url: "{{ conda.version }}-{{ ansible_system }}-{{ ansible_architecture }}"
+  ansible.builtin.get_url:
+    url: "{{ uomi.ai.conda.source_url }}/Miniconda3-{{ suffix_url }}.sh"
+    dest: "{{ tmp_dir }}/conda.sh"
+    mode: "0755"
+
+- name: Install conda installer
+  ansible.builtin.command: bash {{ tmp_dir }}/conda.sh -u -b -p {{ conda_dir }}
+  changed_when: false
+
+- name: Remove conda installer
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}/conda.sh"
+    state: absent
+
+- name: Accept conda TOS for required channels
+  ansible.builtin.command:
+    cmd: >
+      {{ conda_dir }}/bin/conda tos accept
+      --override-channels
+      --channel {{ item }}
+  loop:
+    - https://repo.anaconda.com/pkgs/main
+    - https://repo.anaconda.com/pkgs/r
+  changed_when: false
+
+- name: Create virtual environment
+  ansible.builtin.command:
+    cmd: >-
+      {{ conda_dir }}/bin/conda create
+      -n {{ service_identifier }}
+      python={{ python.version }} -y
+  args:
+    creates: "{{ conda_dir }}/envs/{{ service_identifier }}"
+
+- name: Install PyTorch stack
+  ansible.builtin.pip:
+    name:
+      - torch=={{ torch.version }}
+      - torchvision=={{ torch_vision.version }}
+      - torchaudio=={{ torch_audio.version }}
+    extra_args: --index-url {{ torch.index_url }}
+    executable: "{{ ai_venv_bin_dir }}/pip"
+    state: present
+
+- name: Install CUDA toolkit
+  ansible.builtin.command:
+    cmd: >-
+      {{ conda_dir }}/bin/conda install
+      -n {{ service_identifier }}
+      -c nvidia/label/cuda-{{ cuda.label }}
+      cuda-nvcc={{ cuda.version }}
+      cuda-toolkit={{ cuda.version }}
+      -y
+  changed_when: false
+
+- name: Install required Python packages into conda env
+  ansible.builtin.pip:
+    name:
+      - flask
+      - psutil
+      - transformers
+      - "accelerate>={{ accelerate.version }}"
+      - autoawq
+      - "triton=={{ triton.version }}"
+      - diffusers
+      - websocket-client
+      - requests
+    executable: "{{ ai_venv_bin_dir }}/pip"
+
+- name: Clone the repository
+  ansible.builtin.git:
+    repo: "{{ uomi.ai.source_url }}"
+    dest: "{{ ai_bin_dir }}"
+    version: "{{ uomi.ai.version }}"
+    force: true
+  become_user: "{{ service_identifier }}"
+  notify:
+    - Restart service

@@ -1,0 +1,17 @@
+[Unit]
+Description={{ service_identifier }}
+
+[Service]
+User={{ service_identifier }}
+Group={{ project }}
+WorkingDirectory={{ ai_bin_dir }}
+ExecStart={{ ai_venv_bin_dir }}/python3 uomi-ai.py
+Restart=always
+RestartSec=4
+LimitNOFILE=65536
+MemoryMax=64G
+StandardOutput=append:{{ ai_log_file_path }}
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target

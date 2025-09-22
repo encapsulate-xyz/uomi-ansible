@@ -1,0 +1,47 @@
+---
+- name: Include the ufw rules vars file
+  ansible.builtin.include_vars:
+    file: vars/ufw_rules.yml
+
+- name: Apply UFW rules
+  ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
+  loop: "{{ node_ufw_rules }}"
+
+- name: Include user creation task
+  ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
+  vars:
+    home: "{{ node_home_dir }}"
+    directories: "{{ node_directories }}"
+    log_file_path: "{{ node_log_file_path }}"
+
+- name: Fetch the service binary
+  ansible.builtin.get_url:
+    url: "{{ uomi.validator.source_url }}/{{ uomi.validator.version }}/{{ node_service_default_binary_name }}"
+    dest: "{{ node_bin_dir }}/{{ service_identifier }}"
+    owner: root
+    group: root
+    force: true
+    mode: "0755"
+  notify:
+    - Restart service
+
+- name: Copy genesis file
+  ansible.builtin.copy:
+    src: "{{ env }}/genesis.json"
+    dest: "{{ node_genesis_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+  notify:
+    - Restart service
+
+- name: Copy systemd service file
+  ansible.builtin.template:
+    src: "{{ env }}/systemd.service.j2"
+    dest: /etc/systemd/system/{{ service_identifier }}.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload service
+    - Restart service
