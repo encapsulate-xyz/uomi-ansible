@@ -16,25 +16,16 @@ default_node_types:
 
 tmp_dir: /tmp
 
-go:
-  root: /usr/local/go
-  path: "{{ tmp_dir }}/go"
-  module111: "on"
+conda_dir: /opt/conda
 
-sui:
+uomi:
   validator:
-    source_url: https://releases.sui.io
+    source_url: https://github.com/Uomi-network/uomi-node/releases/download
     ports:
-      server_listen_port: 9191
-      metrics_port: 9186
-  fullnode:
-    version: 88888888888
-    source_url: https://releases.sui.io
-    ports:
-      server_listen_port: 9191
-      metrics_port: 9186
-  bridge:
-    source_url: https://releases.sui.io
-    ports:
-      server_listen_port: 9191
-      metrics_port: 9186
+      rpc_port: 9946
+      p2p_port: 30335
+      prometheus_port: 9617
+  ai:
+    source_url: https://github.com/Uomi-network/uomi-node-ai.git
+    conda:
+      source_url: https://repo.anaconda.com/miniconda

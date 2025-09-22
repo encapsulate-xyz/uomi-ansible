@@ -1,0 +1,26 @@
+---
+conda:
+  version: latest
+
+python:
+  version: "3.10"
+
+torch:
+  version: "2.4.0"
+  index_url: https://download.pytorch.org/whl/cu121
+
+torch_vision:
+  version: "0.19.0"
+
+torch_audio:
+  version: "2.4.0"
+
+cuda:
+  label: "12.1.0"
+  version: "12.1"
+
+accelerate:
+  version: "0.26.0"
+
+triton:
+  version: "3.2.0"
