@@ -1,0 +1,15 @@
+---
+# maintains directories and paths
+ai_home_dir: /opt/{{ service_identifier }}
+
+ai_bin_dir: "{{ ai_home_dir }}/bin"
+ai_log_dir: "{{ ai_home_dir }}/log"
+
+ai_directories:
+  - "{{ ai_home_dir }}"
+  - "{{ ai_bin_dir }}"
+  - "{{ ai_log_dir }}"
+
+ai_log_file_path: "{{ ai_log_dir }}/{{ service_identifier }}.log"
+
+ai_venv_bin_dir: "{{ conda_dir }}/envs/{{ service_identifier }}/bin"
