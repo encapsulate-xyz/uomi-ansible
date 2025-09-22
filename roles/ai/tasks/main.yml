@@ -16,8 +16,6 @@
     dest: "{{ ai_bin_dir }}"
     version: "{{ uomi.ai.version }}"
     force: true
-  become: true
-  become_user: "{{ service_identifier }}"
   notify:
     - Restart service
 
