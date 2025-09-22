@@ -83,14 +83,12 @@
       - requests
     executable: "{{ ai_venv_bin_dir }}/pip"
 
-- name: Mark repo directory as safe for git
-  ansible.builtin.command:
-    cmd: git config --global --add safe.directory {{ ai_bin_dir }}
-  changed_when: false
-
 - name: Clone the repository
   ansible.builtin.git:
     repo: "{{ uomi.ai.source_url }}"
     dest: "{{ ai_bin_dir }}"
     version: "{{ uomi.ai.version }}"
     force: true
+  become_user: "{{ service_identifier }}"
+  notify:
+    - Restart service
