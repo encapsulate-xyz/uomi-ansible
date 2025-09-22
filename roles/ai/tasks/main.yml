@@ -6,8 +6,20 @@
     directories: "{{ ai_directories }}"
     log_file_path: "{{ ai_log_file_path }}"
 
-- name: Include prepare task
-  ansible.builtin.include_tasks: prepare.yml
+- name: Include prepare env task
+  ansible.builtin.include_tasks: prepare_env.yml
+  when: prepare_env | default(false) | bool
+
+- name: Clone the repository
+  ansible.builtin.git:
+    repo: "{{ uomi.ai.source_url }}"
+    dest: "{{ ai_bin_dir }}"
+    version: "{{ uomi.ai.version }}"
+    force: true
+  become: true
+  become_user: "{{ service_identifier }}"
+  notify:
+    - Restart service
 
 - name: Copy systemd service file
   ansible.builtin.template:
