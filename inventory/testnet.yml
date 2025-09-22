@@ -4,11 +4,9 @@ all:
   vars:
     env: testnet
   children:
-    sui:
+    uomi:
       hosts:
-        bridge.sui.testnet.encapsulate.xyz:
-          type: bridge
-        validator.sui.testnet.encapsulate.xyz:
+        validator.uomi.testnet.encapsulate.xyz:
           type: validator
-        fullnode.sui.testnet.encapsulate.xyz:
-          type: fullnode
+        ai.uomi.testnet.encapsulate.xyz:
+          type: ai
