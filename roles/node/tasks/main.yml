@@ -15,8 +15,10 @@
     log_file_path: "{{ node_log_file_path }}"
 
 - name: Fetch the service binary
+  vars:
+    binary_name: "{{ node_service_default_binary_name }}_{{ uomi.validator.version }}"
   ansible.builtin.get_url:
-    url: "{{ uomi.validator.source_url }}/{{ uomi.validator.version }}/{{ node_service_default_binary_name }}"
+    url: "{{ uomi.validator.source_url }}/{{ uomi.validator.version }}/{{ binary_name }}"
     dest: "{{ node_bin_dir }}/{{ service_identifier }}"
     owner: root
     group: root
