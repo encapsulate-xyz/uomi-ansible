@@ -10,6 +10,8 @@
     - g++
     - cmake
     - git
+    - libcudnn9 
+    - libcudnn9-dev
 
 - name: Download conda installer
   vars:
