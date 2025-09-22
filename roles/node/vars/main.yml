@@ -1,0 +1,9 @@
+---
+# maintains file name, binary names, and anything which is not a directory or path
+
+# config file names
+node_genesis_file_name: genesis.json
+node_key_file_name: secret_ed25519
+
+# binary names
+node_service_default_binary_name: uomi_ubuntu_24

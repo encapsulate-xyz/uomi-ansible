@@ -1,0 +1,37 @@
+[Unit]
+Description={{ service_identifier }}
+
+[Service]
+User={{ service_identifier }}
+Group={{ project }}
+WorkingDirectory={{ node_home_dir }}
+ExecStart={{ node_bin_dir }}/{{ service_identifier }} \
+--chain {{ node_genesis_file_path }} \
+--validator \
+--name {{ org }} \
+--base-path {{ node_data_dir }} \
+--state-pruning 1000 \
+--blocks-pruning 1000 \
+--enable-evm-rpc \
+--rpc-cors all \
+--keystore-path {{ node_keystore_dir }} \
+--port {{ uomi.validator.ports.p2p_port }} \
+{% if force_generate_node_key | default(false) %}
+--unsafe-force-node-key-generation \
+{% else %}
+--node-key-file {{ node_key_file_path }} \
+{% endif %}
+--rpc-port {{ uomi.validator.ports.rpc_port }} \
+--public-addr /ip4/{{ ansible_default_ipv4.address }}/tcp/{{ uomi.validator.ports.p2p_port }} \
+--telemetry-url "wss://telemetry.polkadot.io/submit/ 0" \
+--prometheus-external \
+--prometheus-port {{ uomi.validator.ports.prometheus_port }} --detailed-log-output
+Restart=always
+RestartSec=4
+LimitNOFILE=65536
+MemoryMax=64G
+StandardOutput=append:{{ node_log_file_path }}
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
