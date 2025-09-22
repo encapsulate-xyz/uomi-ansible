@@ -21,6 +21,13 @@
   notify:
     - Restart service
 
+- name: Set ownership for bin directory
+  ansible.builtin.file:
+    path: "{{ ai_bin_dir }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    recurse: true
+
 - name: Copy systemd service file
   ansible.builtin.template:
     src: "{{ env }}/systemd.service.j2"
