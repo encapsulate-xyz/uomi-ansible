@@ -14,7 +14,7 @@ ExecStart={{ node_bin_dir }}/{{ service_identifier }} \
 --blocks-pruning 1000 \
 --enable-evm-rpc \
 --rpc-cors all \
---keystore-path {{ node_keystore_dir }} \
+--keystore-path {{ node_key_dir }} \
 --port {{ uomi.validator.ports.p2p_port }} \
 {% if force_generate_node_key | default(false) %}
 --unsafe-force-node-key-generation \
