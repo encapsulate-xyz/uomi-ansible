@@ -5,7 +5,12 @@
   "bootNodes": [         
     "/ip4/65.21.158.116/tcp/30333/p2p/12D3KooWC2R2Lo264qre7B1ZGVyfqMS86YPHpQQXkZz8Mik6BiVj",    
     "/ip4/46.62.196.62/tcp/30333/p2p/12D3KooWNQDskpZCqUT9BEbPFbfNyxeiAZm5n5B31TRRF5KFNdJZ",      
-    "/ip4/46.62.205.113/tcp/30333/p2p/12D3KooWFG6TX2WFfrs6MajzE9cvctdnGYPgD6Vd6oMok5uWRMcH"
+    "/ip4/46.62.205.113/tcp/30333/p2p/12D3KooWFG6TX2WFfrs6MajzE9cvctdnGYPgD6Vd6oMok5uWRMcH",
+    "/ip4/95.216.146.106/tcp/30333/p2p/12D3KooWGEsLuyfaJ4hSMH2KfxGj3EKoVQSeSPovW4VX4ze8XZR2",
+    "/ip4/65.21.158.116/tcp/30333/p2p/12D3KooWC2R2Lo264qre7B1ZGVyfqMS86YPHpQQXkZz8Mik6BiVj",    
+    "/ip4/46.62.196.62/tcp/30333/p2p/12D3KooWNQDskpZCqUT9BEbPFbfNyxeiAZm5n5B31TRRF5KFNdJZ",      
+    "/ip4/46.62.205.113/tcp/30333/p2p/12D3KooWFG6TX2WFfrs6MajzE9cvctdnGYPgD6Vd6oMok5uWRMcH",
+    "/ip4/14.224.155.2/tcp/30333/p2p/12D3KooWRnT2mcv24qi25V6bUWvNzxzzhZaKrEcRpJmGm1jZGDPs"
   ],
   "telemetryEndpoints": null,
   "protocolId": null,
