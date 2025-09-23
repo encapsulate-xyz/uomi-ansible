@@ -10,8 +10,6 @@
     - g++
     - cmake
     - git
-    - libcudnn9 
-    - libcudnn9-dev
 
 - name: Download conda installer
   vars:
@@ -51,14 +49,14 @@
     creates: "{{ conda_dir }}/envs/{{ service_identifier }}"
 
 - name: Install PyTorch stack
-  ansible.builtin.pip:
-    name:
-      - torch=={{ torch.version }}
-      - torchvision=={{ torch_vision.version }}
-      - torchaudio=={{ torch_audio.version }}
-    extra_args: --index-url {{ torch.index_url }}
-    executable: "{{ ai_venv_bin_dir }}/pip"
-    state: present
+  ansible.builtin.command:
+    cmd: >-
+      {{ ai_venv_bin_dir }}/pip install 
+      torch=={{ torch.version }}
+      torchvision=={{ torch_vision.version }} 
+      torchaudio=={{ torch_audio.version }}
+      --index-url {{ torch.index_url }}
+  changed_when: false
 
 - name: Install CUDA toolkit
   ansible.builtin.command:
@@ -73,14 +71,15 @@
 
 - name: Install required Python packages into conda env
   ansible.builtin.pip:
-    name:
-      - flask
-      - psutil
-      - transformers
-      - "accelerate>={{ accelerate.version }}"
-      - autoawq
-      - "triton=={{ triton.version }}"
-      - diffusers
-      - websocket-client
-      - requests
+    name: "{{ item }}"
     executable: "{{ ai_venv_bin_dir }}/pip"
+  loop:
+    - flask
+    - psutil
+    - transformers
+    - "accelerate>={{ accelerate.version }}"
+    - autoawq
+    - "triton=={{ triton.version }}"
+    - diffusers
+    - websocket-client
+    - requests
