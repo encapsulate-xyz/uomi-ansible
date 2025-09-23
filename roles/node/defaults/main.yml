@@ -18,5 +18,3 @@ node_directories:
 
 node_genesis_file_path: "{{ node_config_dir }}/{{ node_genesis_file_name }}"
 node_log_file_path: "{{ node_log_dir }}/{{ service_identifier }}.log"
-
-node_key_file_path: "{{ node_key_dir }}/{{ node_key_file_name }}"
