@@ -18,6 +18,9 @@ tmp_dir: /tmp
 
 conda_dir: /opt/conda
 
+nvm:
+  path: /opt/nvm
+
 uomi:
   validator:
     source_url: https://github.com/Uomi-network/uomi-node/releases/download
