@@ -3,5 +3,8 @@
 uomi:
   validator:
     version: v0.3.4
+    grandpa_authority_id: "0x506cd5577fe9db620ece055fc7fc27c6e85232a2792c245fe6726938509a42d1"
+    node:
+      version: v18.20.5
   ai:
     version: main
