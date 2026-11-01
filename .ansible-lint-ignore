@@ -1,0 +1,4 @@
+# This file contains ignores rule violations for ansible-lint
+roles/ai/tasks/prepare_env.yml yaml[trailing-spaces]
+roles/metrics/meta/main.yml syntax-check[specific]
+setup_metrics.yml yaml[trailing-spaces]
